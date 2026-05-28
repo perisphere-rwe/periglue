@@ -1,0 +1,74 @@
+---
+title: "Setting a default rounding specification"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Setting a default rounding specification}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+If you ever get tired of having to write `peri_glue(..., rspec = your_rspec)` and would rather just write `peri_glue(...)`, you should find this vignette helpful.
+
+```{r setup}
+library(periglue)
+```
+
+## Setting a default with `set_default_rounding_spec()`
+
+Build a rounding specification with `round_spec()` and the `round_`/`format_` helper families, then pass it to `set_default_rounding_spec()`. All subsequent calls to `peri_glue()` and `peri_value()` will use it automatically.
+
+```{r}
+rspec <- round_spec() |>
+  round_using_decimal(digits = 5)
+
+set_default_rounding_spec(rspec)
+
+peri_value(pi)
+```
+
+## Clearing the default
+
+Pass `NULL` to revert to factory settings.
+
+```{r}
+set_default_rounding_spec(NULL)
+
+peri_value(pi)
+```
+
+## Saving and restoring
+
+`set_default_rounding_spec()` invisibly returns the *previous* default, which makes it straightforward to save and restore around a block of code.
+
+```{r}
+rspec <- round_spec() |> round_using_decimal(digits = 3)
+
+old <- set_default_rounding_spec(rspec)
+peri_value(pi)
+
+# Restore whatever was set before
+set_default_rounding_spec(old)
+peri_value(pi)
+```
+
+## Factory defaults vs. stored defaults
+
+`round_spec(force_default = TRUE)` bypasses both the stored default and any `periglue.*` global options, always returning the factory settings. This is useful if you need a clean baseline to build from regardless of session state.
+
+```{r}
+set_default_rounding_spec(round_spec() |> round_using_decimal(digits = 5))
+
+# Ignores the stored default
+round_spec(force_default = TRUE)$digits
+```
+
+```{r, include = FALSE}
+set_default_rounding_spec(NULL)
+```
