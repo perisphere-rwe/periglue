@@ -60,6 +60,7 @@ peri_glue(
 \seealso{
 Other table helpers: 
 \code{\link{peri_ester}()},
+\code{\link{peri_n_pct}()},
 \code{\link{peri_pvalue}()},
 \code{\link{peri_value}()}
 }

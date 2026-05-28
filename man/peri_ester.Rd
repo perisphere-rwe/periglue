@@ -113,6 +113,7 @@ DOI: https://doi.org/10.1016/j.jtcvs.2016.09.003
 \seealso{
 Other table helpers: 
 \code{\link{peri_glue}()},
+\code{\link{peri_n_pct}()},
 \code{\link{peri_pvalue}()},
 \code{\link{peri_value}()}
 }

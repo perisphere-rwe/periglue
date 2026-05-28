@@ -65,8 +65,8 @@ round_spec <- function(force_default = FALSE) {
 
     rspec <- list(
       round_half     = getOption("periglue.round_half",       default = 'even'),
-      round_using    = getOption("periglue.round_using",      default = 'magnitude'),
-      digits         = getOption("periglue.digits",           default = c(2, 1, 0)),
+      round_using    = getOption("periglue.round_using",      default = 'decimal'),
+      digits         = getOption("periglue.digits",           default = 1),
       breaks         = getOption("periglue.breaks",           default = c(1, 10, Inf)),
       miss_replace   = getOption("periglue.miss_replace",     default = '--'),
       big_mark       = getOption("periglue.big_mark",         default = ','),

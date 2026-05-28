@@ -1,7 +1,6 @@
 
-# Always clear the stored default before and after each test so tests
+# Always clear the stored default after each test file so tests
 # don't interfere with each other.
-withr::local_options(list())  # no-op but keeps the withr dependency explicit
 teardown(set_default_rounding_spec(NULL))
 
 test_that("set_default_rounding_spec stores a rspec and peri_value uses it", {
@@ -35,7 +34,7 @@ test_that("set_default_rounding_spec(NULL) clears the default", {
   set_default_rounding_spec(rspec)
   set_default_rounding_spec(NULL)
 
-  # Should revert to factory default (magnitude-based, not 5 decimals)
+  # Should revert to factory default (decimal/1, not 5 decimals)
   expect_equal(peri_value(pi), "3.1")
 
 })

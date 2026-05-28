@@ -124,6 +124,7 @@ DOI: https://doi.org/10.1080/00031305.2016.1154108
 Other table helpers: 
 \code{\link{peri_ester}()},
 \code{\link{peri_glue}()},
+\code{\link{peri_n_pct}()},
 \code{\link{peri_value}()}
 }
 \concept{table helpers}

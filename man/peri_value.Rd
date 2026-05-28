@@ -34,6 +34,7 @@ with(mtcars, peri_value(disp))
 Other table helpers: 
 \code{\link{peri_ester}()},
 \code{\link{peri_glue}()},
+\code{\link{peri_n_pct}()},
 \code{\link{peri_pvalue}()}
 }
 \concept{table helpers}

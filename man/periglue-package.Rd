@@ -11,8 +11,8 @@ Translate double and integer valued data into character values formatted for tab
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/bcjaeger/periglue}
-  \item Report bugs at \url{https://github.com/bcjaeger/periglue/issues}
+  \item \url{https://github.com/perisphere-rwe/periglue}
+  \item Report bugs at \url{https://github.com/perisphere-rwe/periglue/issues}
 }
 
 }
