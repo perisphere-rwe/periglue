@@ -16,10 +16,8 @@ knitr::opts_chunk$set(
 # periglue
 
 <!-- badges: start -->
-`r badger::badge_cran_checks("periglue")`
-`r badger::badge_cran_download("periglue", "last-month", "green")`
-[![DOI](https://zenodo.org/badge/291551786.svg)](https://zenodo.org/badge/latestdoi/291551786)
-`r badger::badge_dependencies("periglue")`
+[![R-CMD-check](https://github.com/perisphere-rwe/periglue/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/perisphere-rwe/periglue/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/perisphere-rwe/periglue/graph/badge.svg)](https://app.codecov.io/gh/perisphere-rwe/periglue)
 <!-- badges: end -->
 
 <!-- Note: 
@@ -31,17 +29,11 @@ The goal of `periglue` is to give you more control over the presentation of your
 
 ## Installation
 
-You can install the released version of periglue from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("periglue")
-```
-
-You can install the development version from [GitHub](https://github.com/) with:
+You can install periglue from [GitHub](https://github.com/perisphere-rwe/periglue) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("bcjaeger/periglue")
+remotes::install_github("perisphere-rwe/periglue")
 ```
 ## Example
 

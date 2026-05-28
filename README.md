@@ -5,11 +5,9 @@
 
 <!-- badges: start -->
 
-[![CRAN
-checks](https://badges.cranchecks.info/summary/periglue.svg)](https://cran.r-project.org/web/checks/check_results_periglue.html)
-[![](http://cranlogs.r-pkg.org/badges/last-month/periglue?color=green)](https://cran.r-project.org/package=periglue)
-[![DOI](https://zenodo.org/badge/291551786.svg)](https://zenodo.org/badge/latestdoi/291551786)
-[![Dependencies](https://tinyverse.netlify.com/badge/periglue)](https://cran.r-project.org/package=periglue)
+[![R-CMD-check](https://github.com/perisphere-rwe/periglue/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/perisphere-rwe/periglue/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/perisphere-rwe/periglue/graph/badge.svg)](https://app.codecov.io/gh/perisphere-rwe/periglue)
 <!-- badges: end -->
 
 <!-- Note: 
@@ -26,19 +24,12 @@ and `peri_value()` functions.
 
 ## Installation
 
-You can install the released version of periglue from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("periglue")
-```
-
-You can install the development version from
-[GitHub](https://github.com/) with:
+You can install periglue from
+[GitHub](https://github.com/perisphere-rwe/periglue) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("bcjaeger/periglue")
+remotes::install_github("perisphere-rwe/periglue")
 ```
 
 ## Example

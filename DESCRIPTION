@@ -28,8 +28,8 @@ Suggests:
 Imports: 
     glue,
     stringi
-URL: https://github.com/bcjaeger/periglue
-BugReports: https://github.com/bcjaeger/periglue/issues
+URL: https://github.com/perisphere-rwe/periglue
+BugReports: https://github.com/perisphere-rwe/periglue/issues
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
