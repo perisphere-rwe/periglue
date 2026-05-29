@@ -1,0 +1,217 @@
+# periglue
+
+The goal of `periglue` is to give you more control over the presentation
+of your data and also simplify the process of rounding, formatting, and
+presenting your data. The main idea is to create rounding specifications
+(starting with
+[`round_spec()`](https://perisphere-rwe.github.io/periglue/reference/round_spec.md))
+that can be plugged in, directly or through global options, to the
+[`peri_glue()`](https://perisphere-rwe.github.io/periglue/reference/peri_glue.md)
+and
+[`peri_value()`](https://perisphere-rwe.github.io/periglue/reference/peri_value.md)
+functions.
+
+## Installation
+
+You can install periglue from
+[GitHub](https://github.com/perisphere-rwe/periglue) with:
+
+``` r
+
+# install.packages("remotes")
+remotes::install_github("perisphere-rwe/periglue")
+```
+
+## Example
+
+Suppose we want to write a summary statement about the mean and standard
+deviation (SD) of a column in the `mtcars` data. We’ll start by loading
+the `glue`, `periglue`, and `magrittr` packages.
+
+``` r
+
+
+library(glue)       # for comparisons with peri_glue
+library(periglue) # similar to glue but with built in rounding
+library(magrittr)   # make rounding specifications using %>%
+```
+
+### Use base R
+
+The classic approach is to use base R functions `format`, `round`, and
+`paste`:
+
+``` r
+
+
+col_name <- "mpg"
+col_mean <- mean(mtcars[[col_name]])
+col_sd <- sd(mtcars[[col_name]])
+
+col_mean_pretty <- format(signif(col_mean, digits = 3), nsmall = 1)
+col_sd_pretty <- format(signif(col_sd, digits = 3), nsmall = 1)
+
+paste0("The mean (SD) of ", col_name, " is ", 
+       col_mean_pretty, " (", col_sd_pretty, ") ")
+#> [1] "The mean (SD) of mpg is 20.1 (6.03) "
+```
+
+This gets the job done! Still, the code may be a little hard to read for
+a user who isn’t a grizzled
+[`paste()`](https://rdrr.io/r/base/paste.html) veteran. This is where
+the `glue` package is really useful.
+
+### Use `glue()`
+
+Instead of using [`paste()`](https://rdrr.io/r/base/paste.html),
+[`glue()`](https://glue.tidyverse.org/reference/glue.html) lets us write
+everything in one string, surrounding R object with curly brackets
+(i.e., “look at this {`R object`}” ) tells R that the
+[`glue()`](https://glue.tidyverse.org/reference/glue.html) function
+should print the value of that R object rather than the raw string. For
+instance,
+
+``` r
+
+
+glue("the mean (SD) of {col_name} is {col_mean_pretty} ({col_sd_pretty})")
+#> the mean (SD) of mpg is 20.1 (6.03)
+```
+
+This is certainly more readable and clean. The only thing
+[`glue()`](https://glue.tidyverse.org/reference/glue.html) doesn’t do is
+make the pretty versions of `col_mean` and `col_sd`. This is where
+`periglue` comes in.
+
+### Use `peri_glue()`
+
+The `periglue` package lets you use
+[`glue()`](https://glue.tidyverse.org/reference/glue.html) without
+having to make numbers pretty beforehand. For example, the code below
+uses
+[`peri_glue()`](https://perisphere-rwe.github.io/periglue/reference/peri_glue.md),
+one of the main functions in `periglue`, to replicate the results we got
+from [`glue()`](https://glue.tidyverse.org/reference/glue.html) but
+without using the pretty versions of `col_mean` and `col_sd`.
+
+``` r
+
+
+# notice that we are not using 'pretty' versions of col_mean and col_sd
+peri_glue("the mean (SD) of {col_name} is {col_mean} ({col_sd})")
+#> [1] "the mean (SD) of mpg is 20 (6.0)"
+```
+
+### Summary
+
+- `peri_glue` applies a general rounding convention to all numeric data
+  that are supplied in the input string.
+
+- The goal is to combine the clean syntax of
+  [`glue()`](https://glue.tidyverse.org/reference/glue.html) with a
+  convenient and generally acceptable rounding specification.
+
+Hopefully, most of your rounding needs will be met without going any
+further than this. However, the rabbit hole does go deeper. Let’s say
+you don’t like the default rounding specification and you want to make
+your own. You can do that!
+
+``` r
+
+
+rspec <- round_spec() %>% # make your own rounding specification
+  round_using_signif(digits = 2) # round to 2 significant digits
+
+# table glue adopts all the rules given by your specification
+peri_glue("the mean (SD) of {col_name} is {col_mean} ({col_sd})", 
+           rspec = rspec)
+#> [1] "the mean (SD) of mpg is 20 (6)"
+```
+
+rounding specifications can also be passed into global options so that
+[`peri_glue()`](https://perisphere-rwe.github.io/periglue/reference/peri_glue.md)
+and
+[`peri_value()`](https://perisphere-rwe.github.io/periglue/reference/peri_value.md)
+will use the specification automatically (see the [Setting a default
+rounding
+specification](https://bcjaeger.github.io/periglue/articles/default_rounder.html)
+vignette)
+
+# Package index
+
+## Format values
+
+Functions for converting numeric vectors into formatted character
+strings ready for table cells.
+
+- [`peri_glue()`](https://perisphere-rwe.github.io/periglue/reference/peri_glue.md)
+  : Expressive rounding for table values
+- [`peri_value()`](https://perisphere-rwe.github.io/periglue/reference/peri_value.md)
+  : General rounding for tables
+- [`peri_n_pct()`](https://perisphere-rwe.github.io/periglue/reference/peri_n_pct.md)
+  : Format a count and percentage pair
+- [`peri_pvalue()`](https://perisphere-rwe.github.io/periglue/reference/peri_pvalue.md)
+  : Round p-values
+- [`peri_ester()`](https://perisphere-rwe.github.io/periglue/reference/peri_ester.md)
+  [`peri_estin()`](https://perisphere-rwe.github.io/periglue/reference/peri_ester.md)
+  : Round estimates and their corresponding errors
+
+## Rounding specifications
+
+Build and configure a `rounding_specification` object that controls how
+values are rounded and formatted.
+
+- [`round_spec()`](https://perisphere-rwe.github.io/periglue/reference/round_spec.md)
+  : Make a rounding specification
+- [`set_default_rounding_spec()`](https://perisphere-rwe.github.io/periglue/reference/set_default_rounding_spec.md)
+  : Set the default rounding specification used by periglue functions
+- [`round_using_magnitude()`](https://perisphere-rwe.github.io/periglue/reference/round_using_magnitude.md)
+  [`round_using_signif()`](https://perisphere-rwe.github.io/periglue/reference/round_using_magnitude.md)
+  [`round_using_decimal()`](https://perisphere-rwe.github.io/periglue/reference/round_using_magnitude.md)
+  : Set rules for rounding numbers
+- [`round_half_up()`](https://perisphere-rwe.github.io/periglue/reference/round_half_up.md)
+  [`round_half_even()`](https://perisphere-rwe.github.io/periglue/reference/round_half_up.md)
+  : Set rules for rounding ties
+- [`format_big()`](https://perisphere-rwe.github.io/periglue/reference/format_big.md)
+  : Format values left of decimal
+- [`format_decimal()`](https://perisphere-rwe.github.io/periglue/reference/format_decimal.md)
+  : Format decimal symbol
+- [`format_missing()`](https://perisphere-rwe.github.io/periglue/reference/format_missing.md)
+  : Format missing values
+- [`format_small()`](https://perisphere-rwe.github.io/periglue/reference/format_small.md)
+  : Format values right of decimal
+
+## Bracket helpers
+
+Extract or manipulate components of bracket-formatted strings such as
+`"3.1 (2.0, 4.2)"`.
+
+- [`bracket_drop()`](https://perisphere-rwe.github.io/periglue/reference/bracket_drop.md)
+  [`bracket_extract()`](https://perisphere-rwe.github.io/periglue/reference/bracket_drop.md)
+  [`bracket_insert_left()`](https://perisphere-rwe.github.io/periglue/reference/bracket_drop.md)
+  [`bracket_insert_right()`](https://perisphere-rwe.github.io/periglue/reference/bracket_drop.md)
+  [`bracket_point_estimate()`](https://perisphere-rwe.github.io/periglue/reference/bracket_drop.md)
+  [`bracket_lower_bound()`](https://perisphere-rwe.github.io/periglue/reference/bracket_drop.md)
+  [`bracket_upper_bound()`](https://perisphere-rwe.github.io/periglue/reference/bracket_drop.md)
+  : Bracket helpers
+- [`as_inline()`](https://perisphere-rwe.github.io/periglue/reference/as_inline.md)
+  : Convert table data to inline list
+
+## Data
+
+- [`nhanes`](https://perisphere-rwe.github.io/periglue/reference/nhanes.md)
+  : NHANES blood pressure data
+
+# Articles
+
+### Getting started
+
+- [Guide to table
+  making](https://perisphere-rwe.github.io/periglue/articles/table_guide.md):
+
+### Customisation
+
+- [Setting a default rounding
+  specification](https://perisphere-rwe.github.io/periglue/articles/default_rounder.md):
+- [Migrating from
+  table.glue](https://perisphere-rwe.github.io/periglue/articles/migrating_from_table_glue.md):

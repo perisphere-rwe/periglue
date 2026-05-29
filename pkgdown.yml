@@ -1,0 +1,11 @@
+pandoc: 3.8.3
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  default_rounder: default_rounder.html
+  migrating_from_table_glue: migrating_from_table_glue.html
+  table_guide: table_guide.html
+last_built: 2026-05-29T14:24Z
+urls:
+  reference: https://perisphere-rwe.github.io/periglue/reference
+  article: https://perisphere-rwe.github.io/periglue/articles
