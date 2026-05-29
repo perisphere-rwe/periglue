@@ -7,7 +7,9 @@
 .navbar .nav-link:hover,
 .navbar .nav-link:focus,
 .navbar-brand,
-.navbar-brand:hover {
+.navbar-brand:hover,
+.navbar-brand small,
+.navbar-brand .version {
   color: #FFFFFF !important;
 }
 
