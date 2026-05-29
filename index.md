@@ -99,7 +99,7 @@ without using the pretty versions of `col_mean` and `col_sd`.
 
 # notice that we are not using 'pretty' versions of col_mean and col_sd
 peri_glue("the mean (SD) of {col_name} is {col_mean} ({col_sd})")
-#> [1] "the mean (SD) of mpg is 20 (6.0)"
+#> [1] "the mean (SD) of mpg is 20.1 (6.0)"
 ```
 
 ### Summary
