@@ -3,14 +3,10 @@ url: https://perisphere-rwe.github.io/periglue
 template:
   bootstrap: 5
   bslib:
-    primary:          "#006FBE"
-    navbar-bg:        "#006FBE"
-    navbar-fg:        "#FFFFFF"
-    link-color:       "#006FBE"
-    headings-color:   "#37BEB3"
-    base_font:        {google: "Source Sans Pro"}
-    heading_font:     {google: "Source Sans Pro"}
-    code_font:        {google: "Source Code Pro"}
+    primary:      "#006FBE"
+    base_font:    {google: "Source Sans Pro"}
+    heading_font: {google: "Source Sans Pro"}
+    code_font:    {google: "Source Code Pro"}
 
 home:
   title: "periglue — Rounding Specifications for Tables"
