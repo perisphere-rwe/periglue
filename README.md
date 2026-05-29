@@ -15,12 +15,12 @@ for code coverage, go to
 https://www.r-bloggers.com/2017/06/how-to-add-code-coverage-codecov-to-your-r-package/ and follow instructions
 -->
 
-The goal of `periglue` is to give you more control over the
-presentation of your data and also simplify the process of rounding,
-formatting, and presenting your data. The main idea is to create
-rounding specifications (starting with `round_spec()`) that can be
-plugged in, directly or through global options, to the `peri_glue()`
-and `peri_value()` functions.
+The goal of `periglue` is to give you more control over the presentation
+of your data and also simplify the process of rounding, formatting, and
+presenting your data. The main idea is to create rounding specifications
+(starting with `round_spec()`) that can be plugged in, directly or
+through global options, to the `peri_glue()` and `peri_value()`
+functions.
 
 ## Installation
 
@@ -89,15 +89,15 @@ is where `periglue` comes in.
 
 The `periglue` package lets you use `glue()` without having to make
 numbers pretty beforehand. For example, the code below uses
-`peri_glue()`, one of the main functions in `periglue`, to replicate
-the results we got from `glue()` but without using the pretty versions
-of `col_mean` and `col_sd`.
+`peri_glue()`, one of the main functions in `periglue`, to replicate the
+results we got from `glue()` but without using the pretty versions of
+`col_mean` and `col_sd`.
 
 ``` r
 
 # notice that we are not using 'pretty' versions of col_mean and col_sd
 peri_glue("the mean (SD) of {col_name} is {col_mean} ({col_sd})")
-#> [1] "the mean (SD) of mpg is 20 (6.0)"
+#> [1] "the mean (SD) of mpg is 20.1 (6.0)"
 ```
 
 ### Summary
