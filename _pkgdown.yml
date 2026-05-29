@@ -1,0 +1,74 @@
+url: https://perisphere-rwe.github.io/periglue
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+
+home:
+  title: "periglue — Rounding Specifications for Tables"
+  description: >
+    Format numeric values as character strings for publication-quality tables,
+    with full control over rounding, decimal marks, big marks, and missing
+    value display.
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github]
+  components:
+    github:
+      icon: fab fa-github
+      href: https://github.com/perisphere-rwe/periglue
+      aria-label: GitHub
+
+reference:
+  - title: "Format values"
+    desc: >
+      Functions for converting numeric vectors into formatted character strings
+      ready for table cells.
+    contents:
+      - peri_glue
+      - peri_value
+      - peri_n_pct
+      - peri_pvalue
+      - peri_ester
+      - peri_estin
+
+  - title: "Rounding specifications"
+    desc: >
+      Build and configure a `rounding_specification` object that controls how
+      values are rounded and formatted.
+    contents:
+      - round_spec
+      - set_default_rounding_spec
+      - starts_with("round_using_")
+      - starts_with("round_half_")
+      - starts_with("format_")
+
+  - title: "Bracket helpers"
+    desc: >
+      Extract or manipulate components of bracket-formatted strings such as
+      `"3.1 (2.0, 4.2)"`.
+    contents:
+      - starts_with("bracket_")
+      - as_inline
+
+  - title: "Data"
+    contents:
+      - nhanes
+
+articles:
+  - title: "Getting started"
+    navbar: ~
+    contents:
+      - table_guide
+  - title: "Customisation"
+    navbar: "Customisation"
+    contents:
+      - default_rounder
+      - migrating_from_table_glue
+
+news:
+  releases:
+    - text: "Changelog"
+      href: news/index.html

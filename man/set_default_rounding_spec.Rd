@@ -16,7 +16,7 @@ invisibly returns the previous default rounding specification, or
 \code{old <- set_default_rounding_spec(new_spec)}.
 }
 \description{
-Stores a \link{rounding_specification} object as the session-wide default used
+Stores a \code{rounding_specification} object as the session-wide default used
 by \code{\link[=peri_glue]{peri_glue()}} and \code{\link[=peri_value]{peri_value()}} when no \code{rspec} argument is supplied.
 This is an alternative to setting individual \verb{periglue.*} options by hand.
 Pass \code{NULL} to clear the stored default and revert to factory settings.

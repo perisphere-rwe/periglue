@@ -24,11 +24,12 @@ Suggests:
     dplyr,
     tidyr,
     tibble,
-    gt
+    gt,
+    pkgdown
 Imports: 
     glue,
     stringi
-URL: https://github.com/perisphere-rwe/periglue
+URL: https://perisphere-rwe.github.io/periglue, https://github.com/perisphere-rwe/periglue
 BugReports: https://github.com/perisphere-rwe/periglue/issues
 VignetteBuilder: knitr
 Depends: 

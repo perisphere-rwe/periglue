@@ -1,7 +1,7 @@
 
 #' Set the default rounding specification used by periglue functions
 #'
-#' Stores a [rounding_specification] object as the session-wide default used
+#' Stores a `rounding_specification` object as the session-wide default used
 #' by [peri_glue()] and [peri_value()] when no `rspec` argument is supplied.
 #' This is an alternative to setting individual `periglue.*` options by hand.
 #' Pass `NULL` to clear the stored default and revert to factory settings.

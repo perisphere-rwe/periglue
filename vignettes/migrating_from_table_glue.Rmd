@@ -1,0 +1,193 @@
+---
+title: "Migrating from table.glue"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Migrating from table.glue}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`periglue` is a fork of `table.glue` with new features, bug fixes, and a
+cleaner API. This vignette covers what changed and how to update code that
+used `table.glue`.
+
+```{r setup}
+library(periglue)
+```
+
+## Renamed functions
+
+All `table_*` functions are now `peri_*`:
+
+| `table.glue`    | `periglue`      |
+|:----------------|:----------------|
+| `table_glue()`  | `peri_glue()`   |
+| `table_value()` | `peri_value()`  |
+| `table_pvalue()`| `peri_pvalue()` |
+| `table_ester()` | `peri_ester()`  |
+| `table_estin()` | `peri_estin()`  |
+
+All other functions (`round_spec()`, `round_using_*()`, `format_*()`,
+`bracket_*()`, `as_inline()`) are unchanged.
+
+## New default rounding
+
+`table.glue` used magnitude-based rounding by default — the number of decimal
+places depended on the size of the value:
+
+- values < 1 → 2 decimal places
+- values 1–10 → 1 decimal place
+- values > 10 → 0 decimal places
+
+This meant a vector of values could be formatted inconsistently:
+
+```{r}
+# Simulated mean ± SD pairs at different scales
+peri_value(c(0.82, 4.7, 31.2), rspec = round_spec() |> round_using_magnitude())
+```
+
+`periglue` defaults to **1 decimal place for all values**, which is more
+predictable and appropriate for most table cells:
+
+```{r}
+peri_value(c(0.82, 4.7, 31.2))
+```
+
+If you preferred the old magnitude-based behaviour, pass an explicit `rspec`:
+
+```{r}
+rspec_mag <- round_spec() |>
+  round_using_magnitude(digits = c(2, 1, 0), breaks = c(1, 10, Inf))
+
+peri_value(c(0.82, 4.7, 31.2), rspec = rspec_mag)
+```
+
+## New way to set a session default
+
+`table.glue` required users to rename rspec fields manually before passing
+them to `options()`:
+
+```r
+# table.glue approach — no longer recommended
+rspec <- round_spec() |> round_using_decimal(digits = 2)
+names(rspec) <- paste("periglue", names(rspec), sep = ".")
+options(rspec)
+```
+
+This worked but was easy to get wrong, and CRAN discourages packages from
+modifying user options.
+
+`periglue` provides `set_default_rounding_spec()`, which stores the
+specification in the package's own internal environment rather than in global
+options:
+
+```{r}
+rspec <- round_spec() |> round_using_decimal(digits = 2)
+set_default_rounding_spec(rspec)
+
+peri_value(pi)
+peri_glue("mean (SD): {mean(mtcars$mpg)} ({sd(mtcars$mpg)})")
+```
+
+Pass `NULL` to clear the default and revert to factory settings:
+
+```{r}
+set_default_rounding_spec(NULL)
+peri_value(pi)
+```
+
+`set_default_rounding_spec()` returns the previous default invisibly, making it
+easy to save and restore around a block of code:
+
+```{r}
+rspec_narrow <- round_spec() |> round_using_decimal(digits = 3)
+
+old <- set_default_rounding_spec(rspec_narrow)
+peri_value(pi)
+
+set_default_rounding_spec(old)  # restore whatever was set before
+peri_value(pi)
+```
+
+## New function: `peri_n_pct()`
+
+The most common cell format in demographic tables — a count with its
+percentage — previously required `peri_glue()`:
+
+```{r}
+n   <- c(48, 32, 20)
+pct <- c(0.48, 0.32, 0.20)
+
+# old approach — relies on n and pct being in scope
+peri_glue("{n} ({round(100 * pct, 1)}%)")
+```
+
+This works but rounds the percentage using the same specification as everything
+else in the template, and gives no control over formatting the count separately
+from the percentage. `peri_n_pct()` handles both in one call:
+
+```{r}
+peri_n_pct(n = n, pct = pct)
+```
+
+Counts are always displayed as whole numbers regardless of the `rspec` used for
+the percentage, and the formatting settings (big mark, decimal mark,
+`miss_replace`) are inherited from a single specification:
+
+```{r}
+peri_n_pct(n = 12480, pct = 0.621)
+```
+
+Missing percentages — common when a subgroup denominator is zero — are handled
+cleanly:
+
+```{r}
+peri_n_pct(n = c(10, 0), pct = c(0.10, NaN))
+```
+
+The output format is customisable via the `form` argument:
+
+```{r}
+peri_n_pct(n = 48, pct = 0.48, form = "{n}/{100} [{pct}%]")
+```
+
+## Bug fix: `peri_glue()` no longer modifies the calling environment
+
+In `table.glue`, calling `table_glue()` injected an internal helper function
+`..f` into the calling environment as a side effect. This was invisible in
+most cases but could corrupt the caller's scope, and would raise an error if
+the calling environment happened to be locked (as can occur in certain
+`dplyr` contexts).
+
+`peri_glue()` now evaluates in a disposable child environment, so nothing
+leaks:
+
+```{r}
+check_leak <- function() {
+  x <- 1.23456
+  before <- ls(all.names = TRUE)
+  peri_glue("{x}")
+  after  <- ls(all.names = TRUE)
+  setdiff(after, before)  # should be empty
+}
+
+check_leak()
+```
+
+## Bug fix: `format_decimal()` validates mark width
+
+`table.glue` silently accepted multi-character decimal marks, which worked in
+older R versions but was deprecated and is becoming an error in recent R.
+`periglue` catches this at the point of specification rather than at
+formatting time:
+
+```{r, error = TRUE}
+round_spec() |> format_decimal(mark = "decimal!")
+```
